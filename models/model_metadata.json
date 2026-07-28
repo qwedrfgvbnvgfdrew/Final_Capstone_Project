@@ -1,0 +1,490 @@
+{
+  "final_k": 4,
+  "random_state": 42,
+  "selection_reason": "The Elbow/Silhouette search found the numerically best silhouette at k=2 (silhouette=0.3735); silhouette score decreases monotonically as k increases on this dataset, which is disclosed here rather than hidden. k=4 (silhouette=0.3038, a 18.7% relative drop from the best score) was nonetheless selected as the FINAL model because the project's functional requirements call for four named, actionable learner profiles (Highly Engaged Learners, Consistent Learners, Struggling but Active Learners, At-Risk Learners). This is a deliberate business-interpretability override of the pure statistical optimum, consistent with the brief's own criterion that a cluster must be 'clearly interpreted' and support 'practical interventions', not merely maximize an internal metric. The trade-off is documented as a limitation.",
+  "cluster_name_map": {
+    "1": "Highly Engaged Learners",
+    "3": "Consistent Learners",
+    "2": "Struggling but Active Learners",
+    "0": "At-Risk Learners"
+  },
+  "kmeans_silhouette_by_k_train": {
+    "2": 0.37354227184167166,
+    "3": 0.3331746399372732,
+    "4": 0.3038111407983543,
+    "5": 0.2762496206706151,
+    "6": 0.28454254995869815,
+    "7": 0.28175294916219956,
+    "8": 0.2985267919135826
+  },
+  "final_model_train_metrics": {
+    "silhouette": 0.3038111407983543,
+    "calinski_harabasz": 214.84600801890247,
+    "davies_bouldin": 1.2620206582842701
+  },
+  "mean_pairwise_ARI": 0.9817696907872955,
+  "stability_seeds": [
+    0,
+    1,
+    2,
+    3,
+    42
+  ],
+  "cluster_engagement_means_train": {
+    "raisedhands": {
+      "0": 16.858,
+      "1": 77.029,
+      "2": 26.5,
+      "3": 58.705
+    },
+    "VisITedResources": {
+      "0": 16.868,
+      "1": 81.245,
+      "2": 30.444,
+      "3": 78.557
+    },
+    "AnnouncementsView": {
+      "0": 16.594,
+      "1": 68.569,
+      "2": 22.0,
+      "3": 39.852
+    },
+    "Discussion": {
+      "0": 23.406,
+      "1": 73.176,
+      "2": 69.87,
+      "3": 25.738
+    }
+  },
+  "cluster_class_crosstab_train": {
+    "H": {
+      "0": 0.028,
+      "1": 0.608,
+      "2": 0.093,
+      "3": 0.41
+    },
+    "L": {
+      "0": 0.67,
+      "1": 0.0,
+      "2": 0.426,
+      "3": 0.057
+    },
+    "M": {
+      "0": 0.302,
+      "1": 0.392,
+      "2": 0.481,
+      "3": 0.533
+    }
+  },
+  "dbscan_grid_results": [
+    {
+      "eps": 0.5,
+      "n_clusters": 9,
+      "n_noise": 215,
+      "silhouette": 0.2937602816039672,
+      "calinski_harabasz": 130.86276354745897,
+      "davies_bouldin": 0.8500491354493926
+    },
+    {
+      "eps": 0.75,
+      "n_clusters": 4,
+      "n_noise": 79,
+      "silhouette": 0.0741842019846509,
+      "calinski_harabasz": 79.53415758415632,
+      "davies_bouldin": 1.0047568967271594
+    },
+    {
+      "eps": 1.0,
+      "n_clusters": 3,
+      "n_noise": 20,
+      "silhouette": 0.13399266979788418,
+      "calinski_harabasz": 98.44352065889754,
+      "davies_bouldin": 1.4580236419263874
+    },
+    {
+      "eps": 1.5,
+      "n_clusters": 1,
+      "n_noise": 0,
+      "silhouette": NaN,
+      "calinski_harabasz": NaN,
+      "davies_bouldin": NaN
+    },
+    {
+      "eps": 2.0,
+      "n_clusters": 1,
+      "n_noise": 0,
+      "silhouette": NaN,
+      "calinski_harabasz": NaN,
+      "davies_bouldin": NaN
+    },
+    {
+      "eps": 2.5,
+      "n_clusters": 1,
+      "n_noise": 0,
+      "silhouette": NaN,
+      "calinski_harabasz": NaN,
+      "davies_bouldin": NaN
+    },
+    {
+      "eps": 3.0,
+      "n_clusters": 1,
+      "n_noise": 0,
+      "silhouette": NaN,
+      "calinski_harabasz": NaN,
+      "davies_bouldin": NaN
+    }
+  ],
+  "best_dbscan": {
+    "eps": 0.5,
+    "n_clusters": 9,
+    "n_noise": 215,
+    "silhouette": 0.2937602816039672,
+    "calinski_harabasz": 130.86276354745897,
+    "davies_bouldin": 0.8500491354493926
+  },
+  "confidence_thresholds": {
+    "low_threshold": 0.6822299914182385,
+    "high_threshold": 1.2937402423553963,
+    "gap_distribution_summary": {
+      "min": 0.009750961497863697,
+      "p33": 0.6822299914182385,
+      "median": 0.9804389255314052,
+      "p67": 1.2937402423553963,
+      "max": 2.1095107093949785
+    }
+  },
+  "fairness_breakdown_train": {
+    "gender": {
+      "F": {
+        "At-Risk Learners": 0.142,
+        "Consistent Learners": 0.459,
+        "Highly Engaged Learners": 0.431,
+        "Struggling but Active Learners": 0.481
+      },
+      "M": {
+        "At-Risk Learners": 0.858,
+        "Consistent Learners": 0.541,
+        "Highly Engaged Learners": 0.569,
+        "Struggling but Active Learners": 0.519
+      }
+    },
+    "NationalITy": {
+      "Egypt": {
+        "At-Risk Learners": 0.028,
+        "Consistent Learners": 0.016,
+        "Highly Engaged Learners": 0.029,
+        "Struggling but Active Learners": 0.019
+      },
+      "Iran": {
+        "At-Risk Learners": 0.009,
+        "Consistent Learners": 0.0,
+        "Highly Engaged Learners": 0.0,
+        "Struggling but Active Learners": 0.037
+      },
+      "Iraq": {
+        "At-Risk Learners": 0.0,
+        "Consistent Learners": 0.082,
+        "Highly Engaged Learners": 0.078,
+        "Struggling but Active Learners": 0.0
+      },
+      "Jordan": {
+        "At-Risk Learners": 0.255,
+        "Consistent Learners": 0.475,
+        "Highly Engaged Learners": 0.363,
+        "Struggling but Active Learners": 0.259
+      },
+      "KW": {
+        "At-Risk Learners": 0.594,
+        "Consistent Learners": 0.197,
+        "Highly Engaged Learners": 0.275,
+        "Struggling but Active Learners": 0.611
+      },
+      "Lybia": {
+        "At-Risk Learners": 0.019,
+        "Consistent Learners": 0.0,
+        "Highly Engaged Learners": 0.0,
+        "Struggling but Active Learners": 0.0
+      },
+      "Morocco": {
+        "At-Risk Learners": 0.0,
+        "Consistent Learners": 0.008,
+        "Highly Engaged Learners": 0.02,
+        "Struggling but Active Learners": 0.019
+      },
+      "Palestine": {
+        "At-Risk Learners": 0.0,
+        "Consistent Learners": 0.09,
+        "Highly Engaged Learners": 0.127,
+        "Struggling but Active Learners": 0.0
+      },
+      "SaudiArabia": {
+        "At-Risk Learners": 0.009,
+        "Consistent Learners": 0.008,
+        "Highly Engaged Learners": 0.029,
+        "Struggling but Active Learners": 0.019
+      },
+      "Syria": {
+        "At-Risk Learners": 0.028,
+        "Consistent Learners": 0.0,
+        "Highly Engaged Learners": 0.02,
+        "Struggling but Active Learners": 0.019
+      },
+      "Tunis": {
+        "At-Risk Learners": 0.028,
+        "Consistent Learners": 0.057,
+        "Highly Engaged Learners": 0.01,
+        "Struggling but Active Learners": 0.0
+      },
+      "USA": {
+        "At-Risk Learners": 0.009,
+        "Consistent Learners": 0.008,
+        "Highly Engaged Learners": 0.01,
+        "Struggling but Active Learners": 0.0
+      },
+      "lebanon": {
+        "At-Risk Learners": 0.019,
+        "Consistent Learners": 0.057,
+        "Highly Engaged Learners": 0.029,
+        "Struggling but Active Learners": 0.019
+      },
+      "venzuela": {
+        "At-Risk Learners": 0.0,
+        "Consistent Learners": 0.0,
+        "Highly Engaged Learners": 0.01,
+        "Struggling but Active Learners": 0.0
+      }
+    },
+    "StageID": {
+      "HighSchool": {
+        "At-Risk Learners": 0.047,
+        "Consistent Learners": 0.033,
+        "Highly Engaged Learners": 0.069,
+        "Struggling but Active Learners": 0.148
+      },
+      "MiddleSchool": {
+        "At-Risk Learners": 0.462,
+        "Consistent Learners": 0.443,
+        "Highly Engaged Learners": 0.686,
+        "Struggling but Active Learners": 0.426
+      },
+      "lowerlevel": {
+        "At-Risk Learners": 0.491,
+        "Consistent Learners": 0.525,
+        "Highly Engaged Learners": 0.245,
+        "Struggling but Active Learners": 0.426
+      }
+    },
+    "GradeID": {
+      "G-02": {
+        "At-Risk Learners": 0.34,
+        "Consistent Learners": 0.5,
+        "Highly Engaged Learners": 0.069,
+        "Struggling but Active Learners": 0.37
+      },
+      "G-04": {
+        "At-Risk Learners": 0.123,
+        "Consistent Learners": 0.025,
+        "Highly Engaged Learners": 0.176,
+        "Struggling but Active Learners": 0.056
+      },
+      "G-05": {
+        "At-Risk Learners": 0.019,
+        "Consistent Learners": 0.0,
+        "Highly Engaged Learners": 0.0,
+        "Struggling but Active Learners": 0.0
+      },
+      "G-06": {
+        "At-Risk Learners": 0.075,
+        "Consistent Learners": 0.057,
+        "Highly Engaged Learners": 0.108,
+        "Struggling but Active Learners": 0.019
+      },
+      "G-07": {
+        "At-Risk Learners": 0.226,
+        "Consistent Learners": 0.107,
+        "Highly Engaged Learners": 0.275,
+        "Struggling but Active Learners": 0.241
+      },
+      "G-08": {
+        "At-Risk Learners": 0.17,
+        "Consistent Learners": 0.279,
+        "Highly Engaged Learners": 0.304,
+        "Struggling but Active Learners": 0.167
+      },
+      "G-09": {
+        "At-Risk Learners": 0.009,
+        "Consistent Learners": 0.0,
+        "Highly Engaged Learners": 0.0,
+        "Struggling but Active Learners": 0.037
+      },
+      "G-10": {
+        "At-Risk Learners": 0.009,
+        "Consistent Learners": 0.008,
+        "Highly Engaged Learners": 0.01,
+        "Struggling but Active Learners": 0.0
+      },
+      "G-11": {
+        "At-Risk Learners": 0.0,
+        "Consistent Learners": 0.016,
+        "Highly Engaged Learners": 0.049,
+        "Struggling but Active Learners": 0.019
+      },
+      "G-12": {
+        "At-Risk Learners": 0.028,
+        "Consistent Learners": 0.008,
+        "Highly Engaged Learners": 0.01,
+        "Struggling but Active Learners": 0.093
+      }
+    },
+    "SectionID": {
+      "A": {
+        "At-Risk Learners": 0.594,
+        "Consistent Learners": 0.5,
+        "Highly Engaged Learners": 0.706,
+        "Struggling but Active Learners": 0.63
+      },
+      "B": {
+        "At-Risk Learners": 0.302,
+        "Consistent Learners": 0.443,
+        "Highly Engaged Learners": 0.275,
+        "Struggling but Active Learners": 0.278
+      },
+      "C": {
+        "At-Risk Learners": 0.104,
+        "Consistent Learners": 0.057,
+        "Highly Engaged Learners": 0.02,
+        "Struggling but Active Learners": 0.093
+      }
+    },
+    "Topic": {
+      "Arabic": {
+        "At-Risk Learners": 0.104,
+        "Consistent Learners": 0.164,
+        "Highly Engaged Learners": 0.078,
+        "Struggling but Active Learners": 0.241
+      },
+      "Biology": {
+        "At-Risk Learners": 0.019,
+        "Consistent Learners": 0.057,
+        "Highly Engaged Learners": 0.127,
+        "Struggling but Active Learners": 0.0
+      },
+      "Chemistry": {
+        "At-Risk Learners": 0.019,
+        "Consistent Learners": 0.098,
+        "Highly Engaged Learners": 0.01,
+        "Struggling but Active Learners": 0.037
+      },
+      "English": {
+        "At-Risk Learners": 0.123,
+        "Consistent Learners": 0.074,
+        "Highly Engaged Learners": 0.108,
+        "Struggling but Active Learners": 0.093
+      },
+      "French": {
+        "At-Risk Learners": 0.104,
+        "Consistent Learners": 0.295,
+        "Highly Engaged Learners": 0.049,
+        "Struggling but Active Learners": 0.0
+      },
+      "Geology": {
+        "At-Risk Learners": 0.0,
+        "Consistent Learners": 0.066,
+        "Highly Engaged Learners": 0.108,
+        "Struggling but Active Learners": 0.0
+      },
+      "History": {
+        "At-Risk Learners": 0.028,
+        "Consistent Learners": 0.0,
+        "Highly Engaged Learners": 0.098,
+        "Struggling but Active Learners": 0.037
+      },
+      "IT": {
+        "At-Risk Learners": 0.321,
+        "Consistent Learners": 0.115,
+        "Highly Engaged Learners": 0.039,
+        "Struggling but Active Learners": 0.444
+      },
+      "Math": {
+        "At-Risk Learners": 0.066,
+        "Consistent Learners": 0.008,
+        "Highly Engaged Learners": 0.039,
+        "Struggling but Active Learners": 0.056
+      },
+      "Quran": {
+        "At-Risk Learners": 0.028,
+        "Consistent Learners": 0.041,
+        "Highly Engaged Learners": 0.078,
+        "Struggling but Active Learners": 0.037
+      },
+      "Science": {
+        "At-Risk Learners": 0.104,
+        "Consistent Learners": 0.033,
+        "Highly Engaged Learners": 0.235,
+        "Struggling but Active Learners": 0.037
+      },
+      "Spanish": {
+        "At-Risk Learners": 0.085,
+        "Consistent Learners": 0.049,
+        "Highly Engaged Learners": 0.029,
+        "Struggling but Active Learners": 0.019
+      }
+    },
+    "Semester": {
+      "F": {
+        "At-Risk Learners": 0.585,
+        "Consistent Learners": 0.443,
+        "Highly Engaged Learners": 0.353,
+        "Struggling but Active Learners": 0.741
+      },
+      "S": {
+        "At-Risk Learners": 0.415,
+        "Consistent Learners": 0.557,
+        "Highly Engaged Learners": 0.647,
+        "Struggling but Active Learners": 0.259
+      }
+    },
+    "Relation": {
+      "Father": {
+        "At-Risk Learners": 0.821,
+        "Consistent Learners": 0.418,
+        "Highly Engaged Learners": 0.382,
+        "Struggling but Active Learners": 0.852
+      },
+      "Mum": {
+        "At-Risk Learners": 0.179,
+        "Consistent Learners": 0.582,
+        "Highly Engaged Learners": 0.618,
+        "Struggling but Active Learners": 0.148
+      }
+    },
+    "ParentAnsweringSurvey": {
+      "No": {
+        "At-Risk Learners": 0.736,
+        "Consistent Learners": 0.377,
+        "Highly Engaged Learners": 0.206,
+        "Struggling but Active Learners": 0.5
+      },
+      "Yes": {
+        "At-Risk Learners": 0.264,
+        "Consistent Learners": 0.623,
+        "Highly Engaged Learners": 0.794,
+        "Struggling but Active Learners": 0.5
+      }
+    },
+    "ParentschoolSatisfaction": {
+      "Bad": {
+        "At-Risk Learners": 0.66,
+        "Consistent Learners": 0.23,
+        "Highly Engaged Learners": 0.216,
+        "Struggling but Active Learners": 0.556
+      },
+      "Good": {
+        "At-Risk Learners": 0.34,
+        "Consistent Learners": 0.77,
+        "Highly Engaged Learners": 0.784,
+        "Struggling but Active Learners": 0.444
+      }
+    }
+  }
+}

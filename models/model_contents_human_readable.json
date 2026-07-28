@@ -1,0 +1,132 @@
+{
+  "preprocessor.joblib": {
+    "type": "sklearn.compose.ColumnTransformer",
+    "description": "One-hot encodes categorical/demographic fields; standardizes the 4 numeric behavioral fields. Fit only on the 384-student training split.",
+    "categorical_columns": [
+      "StudentAbsenceDays"
+    ],
+    "categorical_categories_learned": {
+      "StudentAbsenceDays": [
+        "Above-7",
+        "Under-7"
+      ]
+    },
+    "numeric_columns": [
+      "raisedhands",
+      "VisITedResources",
+      "AnnouncementsView",
+      "Discussion"
+    ],
+    "numeric_scaling_learned_mean_and_std": {
+      "raisedhands": {
+        "mean": 47.492188,
+        "std": 30.894055
+      },
+      "VisITedResources": {
+        "mean": 55.476562,
+        "std": 33.111467
+      },
+      "AnnouncementsView": {
+        "mean": 38.549479,
+        "std": 27.226914
+      },
+      "Discussion": {
+        "mean": 43.901042,
+        "std": 27.153031
+      }
+    },
+    "output_feature_names": [
+      "categorical__StudentAbsenceDays_Above-7",
+      "categorical__StudentAbsenceDays_Under-7",
+      "numeric__raisedhands",
+      "numeric__VisITedResources",
+      "numeric__AnnouncementsView",
+      "numeric__Discussion"
+    ]
+  },
+  "final_kmeans_model.joblib": {
+    "type": "sklearn.cluster.KMeans",
+    "description": "The final, selected clustering model.",
+    "n_clusters": 4,
+    "random_state": 42,
+    "n_init": 10,
+    "n_iterations_to_converge": 11,
+    "final_inertia": 636.6459863057567,
+    "cluster_id_to_learner_profile_name": {
+      "1": "Highly Engaged Learners",
+      "3": "Consistent Learners",
+      "2": "Struggling but Active Learners",
+      "0": "At-Risk Learners"
+    },
+    "cluster_centers_in_preprocessed_feature_space": [
+      [
+        0.7264150943396226,
+        0.2735849056603774,
+        -0.9915725444930622,
+        -1.1660201600753106,
+        -0.8063763517532376,
+        -0.7548100774317879
+      ],
+      [
+        0.12745098039215658,
+        0.8725490196078435,
+        0.95608116397293,
+        0.77823599880338,
+        1.1025541981960187,
+        1.078164317082774
+      ],
+      [
+        0.5555555555555556,
+        0.44444444444444436,
+        -0.679489544429535,
+        -0.7559954413196097,
+        -0.6078352910065924,
+        0.9564062621230602
+      ],
+      [
+        0.20491803278688508,
+        0.795081967213115,
+        0.3629413638542671,
+        0.697064089518828,
+        0.0478563179033219,
+        -0.6689248384370384
+      ]
+    ],
+    "note": "Cluster centers are in the SCALED/ENCODED feature space produced by preprocessor.joblib, not raw student data. See reports/results.md for cluster centers translated back into human-readable engagement averages (raisedhands, VisitedResources, etc.)."
+  },
+  "pca_projector.joblib": {
+    "type": "sklearn.decomposition.PCA",
+    "description": "Used ONLY to generate the 2D visualization of clusters (reports/figures/pca_clusters_train.png). Not used in the clustering decision itself.",
+    "n_components": 2,
+    "explained_variance_ratio": [
+      0.5794390154867283,
+      0.1928903777006042
+    ],
+    "components": [
+      [
+        -0.1710896354501903,
+        0.1710896354501903,
+        0.5423529512406229,
+        0.519678820436522,
+        0.5201533269301489,
+        0.3266257638901632
+      ],
+      [
+        0.10450796146452832,
+        -0.10450796146452832,
+        -0.19731447109552624,
+        -0.37409658279968383,
+        0.08967913322194072,
+        0.8895125470051061
+      ]
+    ],
+    "mean_used_for_centering": [
+      0.3776041666666667,
+      0.6223958333333334,
+      -5.204170427930421e-18,
+      -1.5034270125132327e-17,
+      1.0119220276531375e-16,
+      1.0003572044799587e-16
+    ]
+  }
+}
