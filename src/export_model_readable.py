@@ -1,0 +1,186 @@
+"""
+export_model_readable.py
+-------------------------
+Exports every meaningful internal parameter of the three saved .joblib
+artifacts (preprocessor, final K-Means model, PCA projector) into plain
+JSON and Markdown files that anyone can open in a browser, text editor, or
+GitHub's file preview -- no Python or code execution required.
+
+This does NOT modify, retrain, or alter the trained model in any way. The
+original .joblib files are left completely untouched; this only reads them
+and writes out a human-readable copy of their contents, for review purposes
+(e.g. a mentor checking the project without running code).
+
+Run with: python -m src.export_model_readable   (from the repository root)
+"""
+
+import json
+
+import joblib
+import numpy as np
+
+MODELS_DIR = "models"
+
+
+def to_native(obj):
+    """Recursively convert numpy types to plain Python types for JSON serialization."""
+    if isinstance(obj, np.ndarray):
+        return obj.tolist()
+    if isinstance(obj, (np.integer,)):
+        return int(obj)
+    if isinstance(obj, (np.floating,)):
+        return round(float(obj), 6)
+    if isinstance(obj, dict):
+        return {k: to_native(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [to_native(v) for v in obj]
+    return obj
+
+
+def export_preprocessor(preprocessor):
+    cat_transformer = preprocessor.named_transformers_["categorical"]
+    num_transformer = preprocessor.named_transformers_["numeric"]
+    cat_columns = preprocessor.transformers_[0][2]
+    num_columns = preprocessor.transformers_[1][2]
+
+    categories = {
+        col: to_native(cats) for col, cats in zip(cat_columns, cat_transformer.categories_)
+    }
+    scaling = {
+        col: {"mean": to_native(mean), "std": to_native(std)}
+        for col, mean, std in zip(num_columns, num_transformer.mean_, num_transformer.scale_)
+    }
+    return {
+        "type": "sklearn.compose.ColumnTransformer",
+        "description": "One-hot encodes categorical/demographic fields; standardizes the 4 numeric behavioral fields. Fit only on the 384-student training split.",
+        "categorical_columns": list(cat_columns),
+        "categorical_categories_learned": categories,
+        "numeric_columns": list(num_columns),
+        "numeric_scaling_learned_mean_and_std": scaling,
+        "output_feature_names": to_native(list(preprocessor.get_feature_names_out())),
+    }
+
+
+def export_kmeans(model, cluster_name_map):
+    return {
+        "type": "sklearn.cluster.KMeans",
+        "description": "The final, selected clustering model.",
+        "n_clusters": int(model.n_clusters),
+        "random_state": int(model.random_state),
+        "n_init": model.n_init if isinstance(model.n_init, int) else str(model.n_init),
+        "n_iterations_to_converge": int(model.n_iter_),
+        "final_inertia": to_native(model.inertia_),
+        "cluster_id_to_learner_profile_name": cluster_name_map,
+        "cluster_centers_in_preprocessed_feature_space": to_native(model.cluster_centers_),
+        "note": "Cluster centers are in the SCALED/ENCODED feature space produced by preprocessor.joblib, not raw student data. See reports/results.md for cluster centers translated back into human-readable engagement averages (raisedhands, VisitedResources, etc.).",
+    }
+
+
+def export_pca(pca):
+    return {
+        "type": "sklearn.decomposition.PCA",
+        "description": "Used ONLY to generate the 2D visualization of clusters (reports/figures/pca_clusters_train.png). Not used in the clustering decision itself.",
+        "n_components": int(pca.n_components_),
+        "explained_variance_ratio": to_native(pca.explained_variance_ratio_),
+        "components": to_native(pca.components_),
+        "mean_used_for_centering": to_native(pca.mean_),
+    }
+
+
+def main():
+    preprocessor = joblib.load(f"{MODELS_DIR}/preprocessor.joblib")
+    model = joblib.load(f"{MODELS_DIR}/final_kmeans_model.joblib")
+    pca = joblib.load(f"{MODELS_DIR}/pca_projector.joblib")
+
+    with open(f"{MODELS_DIR}/model_metadata.json") as f:
+        metadata = json.load(f)
+    cluster_name_map = metadata["cluster_name_map"]
+
+    export = {
+        "preprocessor.joblib": export_preprocessor(preprocessor),
+        "final_kmeans_model.joblib": export_kmeans(model, cluster_name_map),
+        "pca_projector.joblib": export_pca(pca),
+    }
+
+    with open(f"{MODELS_DIR}/model_contents_human_readable.json", "w") as f:
+        json.dump(export, f, indent=2)
+
+    # ---------- Also write a Markdown version for easy GitHub viewing ----------
+    md_lines = [
+        "# Human-Readable Contents of the Saved Model Files",
+        "",
+        "This file is an export of everything meaningful stored inside the three",
+        "`.joblib` artifacts in this folder, so you can review the actual trained",
+        "model without running any code. **The original `.joblib` files are",
+        "unmodified** -- this is a read-only export generated by",
+        "`src/export_model_readable.py`.",
+        "",
+        "---",
+        "",
+        "## `preprocessor.joblib`",
+        "",
+        export["preprocessor.joblib"]["description"],
+        "",
+        "**Categorical columns and the exact categories learned from the training data:**",
+        "",
+    ]
+    for col, cats in export["preprocessor.joblib"]["categorical_categories_learned"].items():
+        md_lines.append(f"- `{col}`: {cats}")
+    md_lines += [
+        "",
+        "**Numeric columns and their learned scaling (mean / standard deviation):**",
+        "",
+        "| Column | Mean (learned) | Std Dev (learned) |",
+        "|---|---|---|",
+    ]
+    for col, stats in export["preprocessor.joblib"]["numeric_scaling_learned_mean_and_std"].items():
+        md_lines.append(f"| {col} | {stats['mean']} | {stats['std']} |")
+
+    md_lines += [
+        "",
+        "---",
+        "",
+        "## `final_kmeans_model.joblib`",
+        "",
+        export["final_kmeans_model.joblib"]["description"],
+        "",
+        f"- **Algorithm:** K-Means",
+        f"- **Number of clusters (k):** {export['final_kmeans_model.joblib']['n_clusters']}",
+        f"- **Random state (seed):** {export['final_kmeans_model.joblib']['random_state']}",
+        f"- **Iterations to converge:** {export['final_kmeans_model.joblib']['n_iterations_to_converge']}",
+        f"- **Final inertia (within-cluster sum of squares):** {export['final_kmeans_model.joblib']['final_inertia']}",
+        "",
+        "**Cluster ID → learner profile name:**",
+        "",
+    ]
+    for cid, name in cluster_name_map.items():
+        md_lines.append(f"- Cluster {cid}: **{name}**")
+    md_lines += [
+        "",
+        "> Note: raw cluster centroid coordinates are in the model's internal",
+        "> scaled/encoded feature space (see `model_contents_human_readable.json`",
+        "> for the full numeric arrays). For centroids translated back into plain",
+        "> engagement numbers (e.g. average `raisedhands`, `VisitedResources`),",
+        "> see the cluster profile table in `../reports/results.md`, Section 6.",
+        "",
+        "---",
+        "",
+        "## `pca_projector.joblib`",
+        "",
+        export["pca_projector.joblib"]["description"],
+        "",
+        f"- **Number of components:** {export['pca_projector.joblib']['n_components']}",
+        f"- **Explained variance ratio:** {export['pca_projector.joblib']['explained_variance_ratio']}",
+        "",
+        "See `model_contents_human_readable.json` for the full numeric component vectors.",
+    ]
+
+    with open(f"{MODELS_DIR}/model_contents_human_readable.md", "w") as f:
+        f.write("\n".join(md_lines))
+
+    print("Wrote models/model_contents_human_readable.json")
+    print("Wrote models/model_contents_human_readable.md")
+
+
+if __name__ == "__main__":
+    main()
