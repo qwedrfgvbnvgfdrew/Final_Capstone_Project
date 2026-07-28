@@ -1,0 +1,24 @@
+# Exact tested versions (mentor feedback: pin, don't use >= minimums).
+#
+# pandas / numpy / scikit-learn / matplotlib / joblib / seaborn below were
+# verified by actually re-running the full corrected pipeline
+# (`python -m src.train` + `python -m src.evaluate`) against these exact
+# versions -- see reports/results.md for the resulting numbers.
+#
+# mlflow / sqlalchemy / alembic could not be installed/tested in the sandbox
+# used to prepare this fix (no network access to PyPI). The versions below
+# are the latest mlflow 2.x line compatible with this project's classic
+# tracking API (mlflow.start_run / mlflow.log_params / mlflow.sklearn.log_model)
+# -- deliberately NOT mlflow 3.x, which is a GenAI-focused rewrite. Please
+# confirm these three by running `pip freeze | grep -E "mlflow|SQLAlchemy|alembic"`
+# once after installing in your own environment, and update this file if your
+# resolved versions differ.
+pandas==3.0.2
+numpy==2.4.4
+scikit-learn==1.8.0
+matplotlib==3.10.8
+seaborn==0.13.2
+joblib==1.5.3
+mlflow==2.21.0
+sqlalchemy==2.0.36
+alembic==1.14.0

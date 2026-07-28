@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+*.egg-info/
+.venv/
+venv/
+
+# MLflow tracking artifacts are intentionally ignored. Every time
+# `python -m src.train` runs, MLflow logs a NEW model snapshot under
+# mlruns/.../models/m-<hash>/ without deleting old ones -- committing this
+# folder causes duplicate, ever-growing artifact folders in the repo.
+# Evidence of experiment tracking is instead kept in the committed,
+# human-readable reports/experiment_results.csv. Re-run `python -m src.train`
+# locally at any time to regenerate mlflow.db and mlruns/ from scratch.
+mlflow.db
+mlruns/
