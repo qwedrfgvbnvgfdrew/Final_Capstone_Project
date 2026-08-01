@@ -75,16 +75,7 @@ repository does. Same concepts, different labels — nothing is missing:
 Full detail, including the honest disclosure that k=2 scores higher on pure
 silhouette than the selected k=4, is in `reports/results.md`.
 
-## 6. Known housekeeping (cosmetic only — doesn't affect grading logic)
 
-A few files carry leftover suffixes from re-uploading during iteration
-(e.g. `demo_(1) (1).ipynb`, `01_eda_(1).ipynb`). These are safe to rename to
-their clean equivalents (`demo.ipynb`, `01_eda.ipynb`) at any time before
-final submission — nothing in the code depends on the messy names. A stray
-`download` file and `submission/temp` folder can also be deleted; a
-duplicate submission document should be reduced to one.
-
-## 7. What's left before final submission
 
 - [ ] Clean up the file-naming leftovers noted above
 - [ ] Confirm the repository is public (or mentors have explicit access)
